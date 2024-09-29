@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tblUser")
+@Table(name = "tbl_user")
 public class User {
     @Id
     private int userId;
@@ -27,9 +27,7 @@ public class User {
     @Size(min = 6, message = "Password must be strong.")
     private String password;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Date of birth is required")
     private LocalDate DateOfBirth;
-    @NotNull(message = "Gender is required")
     private char gender;
     private BigDecimal contactNo;
     private String category;
@@ -42,6 +40,10 @@ public class User {
         this.visible = true;
         this.emailVerified = false;
         this.contactNoVerified = false;
+    }
+
+    public User(int userId) {
+        this.userId = userId;
     }
 
     public User(int userId, String firstName, String lastName, String userName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {

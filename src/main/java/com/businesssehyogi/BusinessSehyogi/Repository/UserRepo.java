@@ -12,6 +12,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     boolean existsByUserNameIgnoreCase(String username);
 
-    @Query("SELECT new com.businesssehyogi.BusinessSehyogi.DTO.loginDTO(u.userId, u.userName, u.password, u.visible) FROM User u WHERE u.userName = :username")
+    User findByUserName(String userName);
+
+    @Query("SELECT new com.businesssehyogi.BusinessSehyogi.DTO.loginDTO(u.userId, u.userName, u.password, u.category, u.visible) FROM User u WHERE u.userName = :username")
     loginDTO login(@Param("username") String username);
 }

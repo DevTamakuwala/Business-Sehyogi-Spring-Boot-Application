@@ -1,10 +1,13 @@
 package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.DTO.loginDTO;
+import com.businesssehyogi.BusinessSehyogi.Repository.InvestorRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.UserRepo;
 import com.businesssehyogi.BusinessSehyogi.Service.sendOTPEmail;
 import com.businesssehyogi.BusinessSehyogi.Service.sendSMS;
+import com.businesssehyogi.BusinessSehyogi.model.Investor;
 import com.businesssehyogi.BusinessSehyogi.model.User;
+import com.businesssehyogi.BusinessSehyogi.wrapper.UserInvestorWrapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class UserController {
 
     @Autowired
@@ -26,6 +29,8 @@ public class UserController {
     sendOTPEmail sendMail;
     @Autowired
     sendSMS sms;
+    @Autowired
+    InvestorRepository investorRepo;
 
     private int generateOtp() {
         return (int) (Math.random() * 100000);
@@ -43,10 +48,25 @@ public class UserController {
 
     @PostMapping(value = "/registerUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@Valid @RequestBody User user) {
-        LocalDate dateOfBirth = LocalDate.parse(user.getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        user.setDateOfBirth(dateOfBirth);
+        if (user.getDateOfBirth() != null) {
+            LocalDate dateOfBirth = LocalDate.parse(user.getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            user.setDateOfBirth(dateOfBirth);
+        }
         repo.save(user);
-        return user;
+        return repo.findByUserName(user.getUserName());
+    }
+
+    @PostMapping(value = "/registerInvestor", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Investor addInvestor(@Valid @RequestBody UserInvestorWrapper userInvestorWrapper) {
+        if (userInvestorWrapper.getUser().getDateOfBirth() != null) {
+            LocalDate dateOfBirth = LocalDate.parse(userInvestorWrapper.getUser().getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            userInvestorWrapper.getUser().setDateOfBirth(dateOfBirth);
+        }
+        System.out.println(userInvestorWrapper.getUser());
+        repo.save(userInvestorWrapper.getUser());
+        User user1 = repo.findByUserName(userInvestorWrapper.getUser().getUserName());
+        userInvestorWrapper.getInvestor().setUserId(user1);
+        return investorRepo.save(userInvestorWrapper.getInvestor());
     }
 
     @GetMapping("/sendMail/{userId}")
@@ -139,5 +159,4 @@ public class UserController {
     public Boolean isUsernameAvailable(@Valid @PathVariable("username") String user) {
         return repo.existsByUserNameIgnoreCase(user);
     }
-
 }

@@ -4,12 +4,14 @@ public class loginDTO {
     private int userId;
     private String userName;
     private String password;
+    private String category;
     private boolean visible;
 
-    public loginDTO(int userId, String userName, String password, boolean visible) {
+    public loginDTO(int userId, String userName, String password, String category, boolean visible) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
+        this.category = category;
         this.visible = visible;
     }
 
@@ -53,5 +55,13 @@ public class loginDTO {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
