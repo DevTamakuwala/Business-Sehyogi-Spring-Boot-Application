@@ -14,7 +14,7 @@ public class Investor {
     private String topInvestedCompanies;
 
     @OneToOne()
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User userId;
 
     public Investor() {

@@ -13,8 +13,6 @@
 //    private String aname;
 //    private int age;
 //    private BigDecimal mobile;
-//    @OneToMany(mappedBy = "alien", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Result> results;
 //
 //    public Alien() {
 //    }

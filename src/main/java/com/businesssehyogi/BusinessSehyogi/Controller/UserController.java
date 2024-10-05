@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -36,16 +37,24 @@ public class UserController {
         return (int) (Math.random() * 100000);
     }
 
+//    @GetMapping("/Csrf-Token")
+//    public CsrfToken generateCSRF(HttpServletRequest httpServletRequest){
+//        return (CsrfToken) httpServletRequest.getAttribute("_csrf");
+//    }
+
+    //get Add users
     @GetMapping("/getUser")
     public List<User> getAllUser() {
         return repo.findAll();
     }
 
+    //Login
     @GetMapping("/login/{username}")
     public loginDTO getUser(@Valid @PathVariable("username") String username) {
         return repo.login(username);
     }
 
+    //Register user
     @PostMapping(value = "/registerUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@Valid @RequestBody User user) {
         if (user.getDateOfBirth() != null) {
@@ -56,6 +65,7 @@ public class UserController {
         return repo.findByUserName(user.getUserName());
     }
 
+    //Register Investor
     @PostMapping(value = "/registerInvestor", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Investor addInvestor(@Valid @RequestBody UserInvestorWrapper userInvestorWrapper) {
         if (userInvestorWrapper.getUser().getDateOfBirth() != null) {
@@ -69,6 +79,7 @@ public class UserController {
         return investorRepo.save(userInvestorWrapper.getInvestor());
     }
 
+    //Send mail
     @GetMapping("/sendMail/{userId}")
     public int sendMail(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
@@ -79,6 +90,7 @@ public class UserController {
         return OTP;
     }
 
+    //Verify contact
     @GetMapping("/verifyContact/{userId}")
     public void verifyContact(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
@@ -86,6 +98,7 @@ public class UserController {
         repo.save(user);
     }
 
+    //Verify email
     @GetMapping("/verifyEmail/{userId}")
     public void verifyEmail(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
@@ -93,6 +106,7 @@ public class UserController {
         repo.save(user);
     }
 
+    //Send SMS
     @GetMapping("/sendSMS/{userId}")
     public String sendSMS(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
@@ -106,6 +120,7 @@ public class UserController {
         }
     }
 
+    //Update email
     @PostMapping("/updateEmail/{userId}")
     public String updateEmail(@PathVariable("userId") int userId, @RequestBody String newEmail) {
         User user = repo.findById(userId).orElse(new User());
@@ -121,6 +136,7 @@ public class UserController {
         }
     }
 
+    //Update user
     @PostMapping(value = "/updateUser/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User updateUser(@Valid @RequestBody User newUserData, @PathVariable("userId") int userId) {
         User findUser = repo.findById(userId).orElse(new User());
@@ -155,6 +171,13 @@ public class UserController {
         return ResponseEntity.ok(updateUser).getBody();
     }
 
+    //get Current date and time
+    @GetMapping("/getCurrentDateTime")
+    public LocalDateTime getCurrentDateAndTime() {
+        return LocalDateTime.now();
+    }
+
+    //Check username
     @PostMapping("/checkUsername/{username}")
     public Boolean isUsernameAvailable(@Valid @PathVariable("username") String user) {
         return repo.existsByUserNameIgnoreCase(user);

@@ -18,12 +18,10 @@ public class User {
     private int userId;
     private String firstName;
     private String lastName;
-    @NotNull(message = "Username is required")
     private String userName;
     @NotNull(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
-    @NotNull(message = "Password is required")
     @Size(min = 6, message = "Password must be strong.")
     private String password;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -35,6 +33,8 @@ public class User {
     private boolean visible;
     private boolean emailVerified;
     private boolean contactNoVerified;
+    @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss")
+    private LocalDate dateTimeOfRegistration;
 
     public User() {
         this.visible = true;
@@ -89,6 +89,14 @@ public class User {
 
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    public LocalDate getDateTimeOfRegistration() {
+        return dateTimeOfRegistration;
+    }
+
+    public void setDateTimeOfRegistration(LocalDate dateTimeOfRegistration) {
+        this.dateTimeOfRegistration = dateTimeOfRegistration;
     }
 
     public boolean isContactNoVerified() {
