@@ -18,7 +18,6 @@ public class User {
     private int userId;
     private String firstName;
     private String lastName;
-    private String userName;
     @NotNull(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
@@ -46,11 +45,10 @@ public class User {
         this.userId = userId;
     }
 
-    public User(int userId, String firstName, String lastName, String userName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
+    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
         this.email = email;
         this.password = password;
         DateOfBirth = dateOfBirth;
@@ -69,7 +67,6 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", DateOfBirth=" + DateOfBirth +
@@ -129,14 +126,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getEmail() {
