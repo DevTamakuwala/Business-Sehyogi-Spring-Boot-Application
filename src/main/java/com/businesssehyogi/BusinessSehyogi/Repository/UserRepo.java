@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 
-    boolean existsByUserNameIgnoreCase(String username);
+    boolean existsByEmailIgnoreCase(String email);
 
-    User findByUserName(String userName);
+    User findByEmail(String email);
 
-    @Query("SELECT new com.businesssehyogi.BusinessSehyogi.DTO.loginDTO(u.userId, u.userName, u.password, u.category, u.visible) FROM User u WHERE u.userName = :username")
-    loginDTO login(@Param("username") String username);
+    @Query("SELECT new com.businesssehyogi.BusinessSehyogi.DTO.loginDTO(u.userId, u.email, u.password, u.category, u.visible) FROM User u WHERE u.email = :email")
+    loginDTO login(@Param("email") String email);
 }

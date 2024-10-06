@@ -49,9 +49,9 @@ public class UserController {
     }
 
     //Login
-    @GetMapping("/login/{username}")
-    public loginDTO getUser(@Valid @PathVariable("username") String username) {
-        return repo.login(username);
+    @GetMapping("/login/{email}")
+    public loginDTO getUser(@Valid @PathVariable("username") String email) {
+        return repo.login(email);
     }
 
     //Register user
@@ -62,7 +62,7 @@ public class UserController {
             user.setDateOfBirth(dateOfBirth);
         }
         repo.save(user);
-        return repo.findByUserName(user.getUserName());
+        return repo.findByEmail(user.getEmail());
     }
 
     //Register Investor
@@ -74,7 +74,7 @@ public class UserController {
         }
         System.out.println(userInvestorWrapper.getUser());
         repo.save(userInvestorWrapper.getUser());
-        User user1 = repo.findByUserName(userInvestorWrapper.getUser().getUserName());
+        User user1 = repo.findByEmail(userInvestorWrapper.getUser().getEmail());
         userInvestorWrapper.getInvestor().setUserId(user1);
         return investorRepo.save(userInvestorWrapper.getInvestor());
     }
@@ -180,6 +180,6 @@ public class UserController {
     //Check username
     @PostMapping("/checkUsername/{username}")
     public Boolean isUsernameAvailable(@Valid @PathVariable("username") String user) {
-        return repo.existsByUserNameIgnoreCase(user);
+        return repo.existsByEmailIgnoreCase(user);
     }
 }

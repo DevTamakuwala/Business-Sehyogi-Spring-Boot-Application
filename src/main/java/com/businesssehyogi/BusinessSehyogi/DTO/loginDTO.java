@@ -2,14 +2,14 @@ package com.businesssehyogi.BusinessSehyogi.DTO;
 
 public class loginDTO {
     private int userId;
-    private String userName;
+    private String email;
     private String password;
     private String category;
     private boolean visible;
 
-    public loginDTO(int userId, String userName, String password, String category, boolean visible) {
+    public loginDTO(int userId, String email, String password, String category, boolean visible) {
         this.userId = userId;
-        this.userName = userName;
+        this.email = email;
         this.password = password;
         this.category = category;
         this.visible = visible;
@@ -19,7 +19,7 @@ public class loginDTO {
     public String toString() {
         return "loginDTO{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", visible=" + visible +
                 '}';
@@ -34,11 +34,11 @@ public class loginDTO {
     }
 
     public String getUserName() {
-        return userName;
+        return email;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.email = userName;
     }
 
     public String getPassword() {
