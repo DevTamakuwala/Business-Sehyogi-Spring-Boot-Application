@@ -50,7 +50,7 @@ public class UserController {
 
     //Login
     @GetMapping("/login/{email}")
-    public loginDTO getUser(@Valid @PathVariable("username") String email) {
+    public loginDTO getUser(@Valid @PathVariable("email") String email) {
         return repo.login(email);
     }
 
@@ -60,6 +60,8 @@ public class UserController {
         if (user.getDateOfBirth() != null) {
             LocalDate dateOfBirth = LocalDate.parse(user.getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             user.setDateOfBirth(dateOfBirth);
+        } else {
+            user.setDateOfBirth(null);
         }
         repo.save(user);
         return repo.findByEmail(user.getEmail());
@@ -171,15 +173,29 @@ public class UserController {
         return ResponseEntity.ok(updateUser).getBody();
     }
 
-    //get Current date and time
-    @GetMapping("/getCurrentDateTime")
-    public LocalDateTime getCurrentDateAndTime() {
-        return LocalDateTime.now();
+    @PostMapping("/updateUserPhoto/{userId}")
+    public User updateUserPhoto(@Valid @RequestBody String photo, @PathVariable("userId") int userId) {
+        User findUser = repo.findById(userId).orElse(new User());
+        findUser.setPhoto(photo);
+        User updateUser = repo.save(findUser);
+        return ResponseEntity.ok(updateUser).getBody();
     }
 
-    //Check username
-    @PostMapping("/checkUsername/{username}")
-    public Boolean isUsernameAvailable(@Valid @PathVariable("username") String user) {
-        return repo.existsByEmailIgnoreCase(user);
+    //get Current date and time
+    @GetMapping("/getCurrentDateTime")
+    public String getCurrentDateAndTime() {
+        return LocalDateTime.now().toString();
+    }
+
+    //Check email
+    @GetMapping("/checkEmail/{email}")
+    public String isUsernameAvailable(@Valid @PathVariable("email") String user) {
+        String var;
+        if (repo.existsByEmailIgnoreCase(user)) {
+            var = "true";
+        } else {
+            var = "false";
+        }
+        return var;
     }
 }
