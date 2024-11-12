@@ -11,7 +11,9 @@ import java.util.List;
 public class Post {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
+    private String title;
     private LocalDateTime dateAndTime;
     @Column(length = 150)
     private String abstractContent;
@@ -25,7 +27,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "area_id", referencedColumnName = "interestAreaId")
     private InterestArea areaOfPost;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -39,8 +41,9 @@ public class Post {
     public Post() {
     }
 
-    public Post(int postId, String abstractContent, String content, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links) {
+    public Post(int postId, String title, String abstractContent, String content, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links) {
         this.postId = postId;
+        this.title = title;
         this.abstractContent = abstractContent;
         this.content = content;
         this.noOfLikes = noOfLikes;
@@ -157,5 +160,13 @@ public class Post {
 
     public void setAreaOfPost(InterestArea areaOfPost) {
         this.areaOfPost = areaOfPost;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

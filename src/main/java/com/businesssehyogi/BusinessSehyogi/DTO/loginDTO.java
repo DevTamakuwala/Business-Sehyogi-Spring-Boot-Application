@@ -19,7 +19,7 @@ public class loginDTO {
     public String toString() {
         return "loginDTO{" +
                 "userId=" + userId +
-                ", userName='" + email + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", visible=" + visible +
                 '}';
@@ -33,12 +33,12 @@ public class loginDTO {
         this.userId = userId;
     }
 
-    public String getUserName() {
+    public String getEmail() {
         return email;
     }
 
-    public void setUserName(String userName) {
-        this.email = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

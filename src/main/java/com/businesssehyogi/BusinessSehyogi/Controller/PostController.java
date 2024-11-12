@@ -2,9 +2,14 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.DTO.AbstractPostResponse;
 import com.businesssehyogi.BusinessSehyogi.DTO.FullPostResponse;
+import com.businesssehyogi.BusinessSehyogi.DTO.PostRequest;
+import com.businesssehyogi.BusinessSehyogi.Repository.InterestAreaRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.PaymentRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.PostRepository;
+import com.businesssehyogi.BusinessSehyogi.Repository.UserRepo;
+import com.businesssehyogi.BusinessSehyogi.model.InterestArea;
 import com.businesssehyogi.BusinessSehyogi.model.Post;
+import com.businesssehyogi.BusinessSehyogi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,12 @@ public class PostController {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private InterestAreaRepository interestAreaRepository;
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -135,6 +146,12 @@ public class PostController {
         return result;
     }
 
+    @GetMapping("/getPostsForFounder/{userId}")
+    public List<Post> getPostsForFounder(@PathVariable("userId") int userId) {
+        return postRepository.findByUserUserId(userId);
+    }
+
+
     @GetMapping("/getPostById/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable int id) {
         Optional<Post> post = postRepository.findById(id);
@@ -153,9 +170,29 @@ public class PostController {
     }
 
     @PostMapping("/addPost")
-    public Post createPost(@RequestBody Post post) {
-        return postRepository.save(post);
+    public ResponseEntity<Post> createPost(@RequestBody PostRequest postRequest) {
+        // Fetch the User and InterestArea entities based on the IDs in the request
+        Optional<User> userOptional = userRepo.findById(postRequest.getUserId());
+        Optional<InterestArea> areaOptional = interestAreaRepository.findById(postRequest.getAreaId());
+
+        if (userOptional.isEmpty() || areaOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        Post post = new Post();
+        post.setDateAndTime(postRequest.getDateAndTime());
+        post.setAbstractContent(postRequest.getAbstractContent());
+        post.setContent(postRequest.getContent());
+        post.setNoOfLikes(postRequest.getNoOfLikes());
+        post.setNoOfInterested(postRequest.getNoOfInterested());
+        post.setVisible(postRequest.isVisible());
+        post.setViews(postRequest.getViews());
+        post.setBoostedPost(postRequest.isBoostedPost());
+        post.setUser(userOptional.get());
+        post.setAreaOfPost(areaOptional.get());
+        Post savedPost = postRepository.save(post);
+        return ResponseEntity.ok(savedPost);
     }
+
 
     @PutMapping("updatePost/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable int id, @RequestBody Post postDetails) {

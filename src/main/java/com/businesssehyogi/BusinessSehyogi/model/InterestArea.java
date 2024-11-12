@@ -1,6 +1,9 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_interest_area")
@@ -11,6 +14,10 @@ public class InterestArea {
     private int interestAreaId;
 
     private String areaName;
+
+    @OneToMany(mappedBy = "areaOfPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Post> posts;
 
     public InterestArea(int interestAreaId, String areaName) {
         this.interestAreaId = interestAreaId;

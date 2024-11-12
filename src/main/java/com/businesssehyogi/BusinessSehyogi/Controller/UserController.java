@@ -42,15 +42,21 @@ public class UserController {
 //        return (CsrfToken) httpServletRequest.getAttribute("_csrf");
 //    }
 
-    //get Add users
-    @GetMapping("/getUser")
+    //get All users
+    @GetMapping("/getUsers")
     public List<User> getAllUser() {
         return repo.findAll();
     }
 
+    //get one user
+    @GetMapping("/getUser/{email}")
+    public User getUser(@Valid @PathVariable("email") String email) {
+        return repo.findByEmail(email);
+    }
+
     //Login
     @GetMapping("/login/{email}")
-    public loginDTO getUser(@Valid @PathVariable("email") String email) {
+    public loginDTO getUserForLogin(@Valid @PathVariable("email") String email) {
         return repo.login(email);
     }
 
