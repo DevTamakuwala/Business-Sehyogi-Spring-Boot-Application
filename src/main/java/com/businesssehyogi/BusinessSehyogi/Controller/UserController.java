@@ -43,7 +43,7 @@ public class UserController {
 //    }
 
     //get All users
-    @GetMapping("/getUsers")
+    @GetMapping("/")
     public List<User> getAllUser() {
         return repo.findAll();
     }
