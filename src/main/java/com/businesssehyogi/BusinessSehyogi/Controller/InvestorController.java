@@ -1,6 +1,7 @@
 package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.Repository.InvestorRepository;
+import com.businesssehyogi.BusinessSehyogi.Repository.LikesRepository;
 import com.businesssehyogi.BusinessSehyogi.model.Investor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ public class InvestorController {
 
     @Autowired
     InvestorRepository repo;
+
+    @Autowired
+    LikesRepository likesRepository;
 
     @GetMapping("/getInvestors")
     public List<Investor> getInvestor() {

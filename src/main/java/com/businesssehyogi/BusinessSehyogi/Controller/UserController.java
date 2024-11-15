@@ -2,7 +2,7 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.DTO.loginDTO;
 import com.businesssehyogi.BusinessSehyogi.Repository.InvestorRepository;
-import com.businesssehyogi.BusinessSehyogi.Repository.UserRepo;
+import com.businesssehyogi.BusinessSehyogi.Repository.UserRepository;
 import com.businesssehyogi.BusinessSehyogi.Service.sendOTPEmail;
 import com.businesssehyogi.BusinessSehyogi.Service.sendSMS;
 import com.businesssehyogi.BusinessSehyogi.model.Investor;
@@ -25,7 +25,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserRepo repo;
+    UserRepository repo;
     @Autowired
     sendOTPEmail sendMail;
     @Autowired

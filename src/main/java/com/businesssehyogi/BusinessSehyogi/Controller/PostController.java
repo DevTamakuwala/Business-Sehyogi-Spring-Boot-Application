@@ -6,7 +6,7 @@ import com.businesssehyogi.BusinessSehyogi.DTO.PostRequest;
 import com.businesssehyogi.BusinessSehyogi.Repository.InterestAreaRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.PaymentRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.PostRepository;
-import com.businesssehyogi.BusinessSehyogi.Repository.UserRepo;
+import com.businesssehyogi.BusinessSehyogi.Repository.UserRepository;
 import com.businesssehyogi.BusinessSehyogi.model.InterestArea;
 import com.businesssehyogi.BusinessSehyogi.model.Post;
 import com.businesssehyogi.BusinessSehyogi.model.User;
@@ -27,7 +27,7 @@ public class PostController {
     private PostRepository postRepository;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Autowired
     private InterestAreaRepository interestAreaRepository;
@@ -53,6 +53,7 @@ public class PostController {
                         post.getContent(),
                         post.getNoOfLikes(),
                         post.getNoOfInterested(),
+                        post.getNoOfComments(),
                         post.isVisible(),
                         post.getViews(),
                         post.isBoostedPost(),
@@ -68,6 +69,7 @@ public class PostController {
                         post.getAbstractContent(),
                         post.getNoOfLikes(),
                         post.getNoOfInterested(),
+                        post.getNoOfComments(),
                         post.isVisible(),
                         post.getViews(),
                         post.isBoostedPost()
@@ -97,6 +99,7 @@ public class PostController {
                         post.getContent(),
                         post.getNoOfLikes(),
                         post.getNoOfInterested(),
+                        post.getNoOfComments(),
                         post.isVisible(),
                         post.getViews(),
                         post.isBoostedPost(),
@@ -112,6 +115,7 @@ public class PostController {
                         post.getAbstractContent(),
                         post.getNoOfLikes(),
                         post.getNoOfInterested(),
+                        post.getNoOfComments(),
                         post.isVisible(),
                         post.getViews(),
                         post.isBoostedPost()
@@ -137,6 +141,7 @@ public class PostController {
                     post.getContent(),
                     post.getNoOfLikes(),
                     post.getNoOfInterested(),
+                    post.getNoOfComments(),
                     post.isVisible(),
                     post.getViews(),
                     post.isBoostedPost(),
@@ -179,7 +184,7 @@ public class PostController {
     @PostMapping("/addPost")
     public ResponseEntity<Post> createPost(@RequestBody PostRequest postRequest) {
         // Fetch the User and InterestArea entities based on the IDs in the request
-        Optional<User> userOptional = userRepo.findById(postRequest.getUserId());
+        Optional<User> userOptional = userRepository.findById(postRequest.getUserId());
         Optional<InterestArea> areaOptional = interestAreaRepository.findById(postRequest.getAreaId());
 
         if (userOptional.isEmpty() || areaOptional.isEmpty()) {
@@ -191,6 +196,7 @@ public class PostController {
         post.setContent(postRequest.getContent());
         post.setNoOfLikes(postRequest.getNoOfLikes());
         post.setNoOfInterested(postRequest.getNoOfInterested());
+        post.setNoOfComments(postRequest.getNoOfComments());
         post.setVisible(postRequest.isVisible());
         post.setViews(postRequest.getViews());
         post.setBoostedPost(postRequest.isBoostedPost());
@@ -212,6 +218,7 @@ public class PostController {
             post.setContent(postDetails.getContent());
             post.setNoOfLikes(postDetails.getNoOfLikes());
             post.setNoOfInterested(postDetails.getNoOfInterested());
+            post.setNoOfComments(postDetails.getNoOfComments());
             post.setVisible(postDetails.isVisible());
             post.setViews(postDetails.getViews());
             post.setBoostedPost(postDetails.isBoostedPost());
@@ -221,5 +228,25 @@ public class PostController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //add view
+    @GetMapping("/addView/{postId}")
+    public String addView(@PathVariable("postId") int postId) {
+        Post post = postRepository.findById(postId).orElse(new Post());
+        if (post != null) {
+            int view = post.getViews();
+            post.setViews(view + 1);
+            postRepository.save(post);
+            return "View added..!!";
+        } else {
+            return "Post Does not exist..!!";
+        }
+    }
+
+    // Endpoint to get posts with the most interests, likes, or comments
+    @GetMapping("/getTopPosts")
+    public List<Post> getTopPosts() {
+        return postRepository.findTopPosts();
     }
 }

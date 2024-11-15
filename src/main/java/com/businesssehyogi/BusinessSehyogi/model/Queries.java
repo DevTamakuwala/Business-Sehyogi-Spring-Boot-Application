@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_query")
-public class Query {
+public class Queries {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class Query {
     private boolean isSolved;
 
     // Default constructor
-    public Query() {
+    public Queries() {
     }
 
     // Parameterized constructor
-    public Query(User user, LocalDateTime dateAndTime, boolean isAnswer, boolean isSolved) {
+    public Queries(User user, LocalDateTime dateAndTime, boolean isAnswer, boolean isSolved) {
         this.user = user;
         this.dateAndTime = dateAndTime;
         this.isAnswer = isAnswer;

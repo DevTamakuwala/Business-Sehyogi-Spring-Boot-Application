@@ -7,8 +7,9 @@ public class PostRequest {
     private LocalDateTime dateAndTime;
     private String abstractContent;
     private String content;
-    private int noOfLikes;
-    private int noOfInterested;
+    private Long noOfLikes;
+    private Long noOfInterested;
+    private Long noOfComments;
     private boolean visible;
     private int views;
     private boolean boostedPost;
@@ -16,12 +17,13 @@ public class PostRequest {
     private int areaId; // ID of the interest area
 
 
-    public PostRequest(LocalDateTime dateAndTime, String abstractContent, String content, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost, int userId, int areaId) {
+    public PostRequest(LocalDateTime dateAndTime, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, int userId, int areaId) {
         this.dateAndTime = dateAndTime;
         this.abstractContent = abstractContent;
         this.content = content;
         this.noOfLikes = noOfLikes;
         this.noOfInterested = noOfInterested;
+        this.noOfComments = noOfComments;
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
@@ -56,19 +58,19 @@ public class PostRequest {
         this.content = content;
     }
 
-    public int getNoOfLikes() {
+    public Long getNoOfLikes() {
         return noOfLikes;
     }
 
-    public void setNoOfLikes(int noOfLikes) {
+    public void setNoOfLikes(Long noOfLikes) {
         this.noOfLikes = noOfLikes;
     }
 
-    public int getNoOfInterested() {
+    public Long getNoOfInterested() {
         return noOfInterested;
     }
 
-    public void setNoOfInterested(int noOfInterested) {
+    public void setNoOfInterested(Long noOfInterested) {
         this.noOfInterested = noOfInterested;
     }
 
@@ -110,5 +112,13 @@ public class PostRequest {
 
     public void setAreaId(int areaId) {
         this.areaId = areaId;
+    }
+
+    public Long getNoOfComments() {
+        return noOfComments;
+    }
+
+    public void setNoOfComments(Long noOfComments) {
+        this.noOfComments = noOfComments;
     }
 }

@@ -19,8 +19,9 @@ public class Post {
     private String abstractContent;
     @Column(length = 500)
     private String content;
-    private int noOfLikes;
-    private int noOfInterested;
+    private Long noOfLikes;
+    private Long noOfInterested;
+    private Long noOfComments;
     private boolean visible;
     private int views;
     private boolean boostedPost;
@@ -37,17 +38,20 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Links> links;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     public Post() {
     }
 
-    public Post(int postId, String title, String abstractContent, String content, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links) {
+    public Post(int postId, String title, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links) {
         this.postId = postId;
         this.title = title;
         this.abstractContent = abstractContent;
         this.content = content;
         this.noOfLikes = noOfLikes;
         this.noOfInterested = noOfInterested;
+        this.noOfComments = noOfComments;
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
@@ -106,19 +110,19 @@ public class Post {
         this.content = content;
     }
 
-    public int getNoOfLikes() {
+    public Long getNoOfLikes() {
         return noOfLikes;
     }
 
-    public void setNoOfLikes(int noOfLikes) {
+    public void setNoOfLikes(Long noOfLikes) {
         this.noOfLikes = noOfLikes;
     }
 
-    public int getNoOfInterested() {
+    public Long getNoOfInterested() {
         return noOfInterested;
     }
 
-    public void setNoOfInterested(int noOfInterested) {
+    public void setNoOfInterested(Long noOfInterested) {
         this.noOfInterested = noOfInterested;
     }
 
@@ -168,5 +172,13 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Long getNoOfComments() {
+        return noOfComments;
+    }
+
+    public void setNoOfComments(Long noOfComments) {
+        this.noOfComments = noOfComments;
     }
 }

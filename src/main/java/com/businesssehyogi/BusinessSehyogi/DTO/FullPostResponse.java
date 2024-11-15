@@ -11,8 +11,9 @@ public class FullPostResponse {
     private LocalDateTime dateAndTime;
     private String abstractContent;
     private String content;
-    private int noOfLikes;
-    private int noOfInterested;
+    private Long noOfLikes;
+    private Long noOfInterested;
+    private Long noOfComments;
     private boolean visible;
     private int views;
     private boolean boostedPost;
@@ -20,13 +21,14 @@ public class FullPostResponse {
     private List<Links> links;
 
     // Constructor
-    public FullPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, String content, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost, List<Images> images, List<Links> links) {
+    public FullPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, List<Images> images, List<Links> links) {
         this.postId = postId;
         this.dateAndTime = dateAndTime;
         this.abstractContent = abstractContent;
         this.content = content;
         this.noOfLikes = noOfLikes;
         this.noOfInterested = noOfInterested;
+        this.noOfComments = noOfComments;
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
@@ -34,7 +36,8 @@ public class FullPostResponse {
         this.links = links;
     }
 
-    public FullPostResponse() {
+    public FullPostResponse(Long noOfComments) {
+        this.noOfComments = noOfComments;
     }
 
     public int getPostId() {
@@ -69,19 +72,19 @@ public class FullPostResponse {
         this.content = content;
     }
 
-    public int getNoOfLikes() {
+    public Long getNoOfLikes() {
         return noOfLikes;
     }
 
-    public void setNoOfLikes(int noOfLikes) {
+    public void setNoOfLikes(Long noOfLikes) {
         this.noOfLikes = noOfLikes;
     }
 
-    public int getNoOfInterested() {
+    public Long getNoOfInterested() {
         return noOfInterested;
     }
 
-    public void setNoOfInterested(int noOfInterested) {
+    public void setNoOfInterested(Long noOfInterested) {
         this.noOfInterested = noOfInterested;
     }
 
@@ -123,6 +126,14 @@ public class FullPostResponse {
 
     public void setLinks(List<Links> links) {
         this.links = links;
+    }
+
+    public Long getNoOfComments() {
+        return noOfComments;
+    }
+
+    public void setNoOfComments(Long noOfComments) {
+        this.noOfComments = noOfComments;
     }
 
     // Getters and setters omitted for brevity

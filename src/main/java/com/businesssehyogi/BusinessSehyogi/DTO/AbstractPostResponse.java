@@ -6,19 +6,21 @@ public class AbstractPostResponse {
     private int postId;
     private LocalDateTime dateAndTime;
     private String abstractContent;
-    private int noOfLikes;
-    private int noOfInterested;
+    private Long noOfLikes;
+    private Long noOfInterested;
+    private Long noOfComments;
     private boolean visible;
     private int views;
     private boolean boostedPost;
 
     // Constructor
-    public AbstractPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, int noOfLikes, int noOfInterested, boolean visible, int views, boolean boostedPost) {
+    public AbstractPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost) {
         this.postId = postId;
         this.dateAndTime = dateAndTime;
         this.abstractContent = abstractContent;
         this.noOfLikes = noOfLikes;
         this.noOfInterested = noOfInterested;
+        this.noOfComments = noOfComments;
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
@@ -51,19 +53,19 @@ public class AbstractPostResponse {
         this.abstractContent = abstractContent;
     }
 
-    public int getNoOfLikes() {
+    public Long getNoOfLikes() {
         return noOfLikes;
     }
 
-    public void setNoOfLikes(int noOfLikes) {
+    public void setNoOfLikes(Long noOfLikes) {
         this.noOfLikes = noOfLikes;
     }
 
-    public int getNoOfInterested() {
+    public Long getNoOfInterested() {
         return noOfInterested;
     }
 
-    public void setNoOfInterested(int noOfInterested) {
+    public void setNoOfInterested(Long noOfInterested) {
         this.noOfInterested = noOfInterested;
     }
 
@@ -89,5 +91,13 @@ public class AbstractPostResponse {
 
     public void setBoostedPost(boolean boostedPost) {
         this.boostedPost = boostedPost;
+    }
+
+    public Long getNoOfComments() {
+        return noOfComments;
+    }
+
+    public void setNoOfComments(Long noOfComments) {
+        this.noOfComments = noOfComments;
     }
 }
