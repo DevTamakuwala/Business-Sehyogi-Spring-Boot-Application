@@ -43,7 +43,7 @@ public class UserController {
 //    }
 
     //get All users
-    @GetMapping("Spring-Boot-Application/")
+    @GetMapping("/getUsers")
     public List<User> getAllUser() {
         return repo.findAll();
     }
