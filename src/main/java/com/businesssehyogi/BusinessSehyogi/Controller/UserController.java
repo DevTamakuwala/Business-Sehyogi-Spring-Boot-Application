@@ -119,7 +119,8 @@ public class UserController {
     public String sendSMS(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
         int OTP = generateOtp();
-        String contactNo = "+91" + user.getContactNo();
+        String contactNo = "+91" + user.getContactNo().toBigInteger();
+        System.out.println("contactNo " + contactNo);
         if (user.getContactNo() != null) {
             sms.sendSms(contactNo, "Your OTP is: " + OTP);
             return String.valueOf(OTP);
