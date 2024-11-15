@@ -35,6 +35,7 @@ public class PostController {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    // for home page
     @GetMapping("/getPostForHomePage/{userId}")
     public List<Object> getPostForHomePage(@PathVariable int userId) {
         List<Post> posts = postRepository.findPostsSortedByLikesAndUploadDate();
@@ -77,6 +78,7 @@ public class PostController {
         return result;
     }
 
+    // single post
     // Fetch a single post by ID, applying payment check for content visibility
     @GetMapping("/getPostById/{userId}/{postId}")
     public ResponseEntity<Object> getPostById(@PathVariable int userId, @PathVariable int postId) {
@@ -121,6 +123,7 @@ public class PostController {
         }
     }
 
+    //get all posts
     @GetMapping("/getPosts")
     public List<Object> getAllPosts() {
         List<Post> posts = postRepository.findAll();
@@ -146,18 +149,21 @@ public class PostController {
         return result;
     }
 
+    // all post of one founder
     @GetMapping("/getPostsForFounder/{userId}")
     public List<Post> getPostsForFounder(@PathVariable("userId") int userId) {
         return postRepository.findByUserUserId(userId);
     }
 
 
+    //get one post for admin
     @GetMapping("/getPostById/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable int id) {
         Optional<Post> post = postRepository.findById(id);
         return post.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    //deleting the post
     @GetMapping("/deletePost/{id}")
     public String deletePost(@PathVariable int id) {
         Post post = postRepository.findById(id).orElse(new Post());
@@ -169,6 +175,7 @@ public class PostController {
         return "";
     }
 
+    //add new post
     @PostMapping("/addPost")
     public ResponseEntity<Post> createPost(@RequestBody PostRequest postRequest) {
         // Fetch the User and InterestArea entities based on the IDs in the request
@@ -194,6 +201,7 @@ public class PostController {
     }
 
 
+    // updating the post
     @PutMapping("updatePost/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable int id, @RequestBody Post postDetails) {
         Optional<Post> postOptional = postRepository.findById(id);
