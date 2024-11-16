@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -16,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT new com.businesssehyogi.BusinessSehyogi.DTO.loginDTO(u.userId, u.email, u.password, u.category, u.visible) FROM User u WHERE u.email = :email")
     loginDTO login(@Param("email") String email);
+
+    Optional<User> findByUserId(int userId);
 }

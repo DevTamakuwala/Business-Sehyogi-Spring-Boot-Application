@@ -18,20 +18,34 @@ public class Queries {
 
     private LocalDateTime dateAndTime;
 
+    private String query;
+
     private boolean isAnswer;
 
     private boolean isSolved;
+
+    private String answer;
 
     // Default constructor
     public Queries() {
     }
 
     // Parameterized constructor
-    public Queries(User user, LocalDateTime dateAndTime, boolean isAnswer, boolean isSolved) {
+    public Queries(User user, LocalDateTime dateAndTime, String query, boolean isAnswer, boolean isSolved, String answer) {
         this.user = user;
         this.dateAndTime = dateAndTime;
+        this.query = query;
         this.isAnswer = isAnswer;
         this.isSolved = isSolved;
+        this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     // Getters and Setters
@@ -59,19 +73,27 @@ public class Queries {
         this.dateAndTime = dateAndTime;
     }
 
-    public boolean isAnswer() {
+    public boolean getIsAnswer() {
         return isAnswer;
     }
 
-    public void setAnswer(boolean isAnswer) {
+    public void setIsAnswer(boolean isAnswer) {
         this.isAnswer = isAnswer;
     }
 
-    public boolean isSolved() {
+    public boolean getIsSolved() {
         return isSolved;
     }
 
-    public void setSolved(boolean isSolved) {
+    public void setIsSolved(boolean isSolved) {
         this.isSolved = isSolved;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }
