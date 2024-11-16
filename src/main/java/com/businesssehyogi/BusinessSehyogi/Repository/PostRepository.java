@@ -18,4 +18,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("SELECT p FROM Post p ORDER BY (p.noOfInterested + p.noOfLikes + SIZE(p.comments)) DESC")
     List<Post> findTopPosts();
 
+    Post findByPostId(int postId);
 }

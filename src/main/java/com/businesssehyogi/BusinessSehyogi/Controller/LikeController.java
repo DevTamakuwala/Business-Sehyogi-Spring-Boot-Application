@@ -34,10 +34,10 @@ public class LikeController {
     @PostMapping("/addLike/{userId}/{postId}")
     public String addLike(@PathVariable("userId") int userId, @PathVariable("postId") int postId) {
         // Retrieve the User object using userId
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findByUserId(userId).orElse(null);
 
         // Retrieve the Post object using postId
-        Post post = postRepository.findById(postId).orElse(null);
+        Post post = postRepository.findByPostId(postId);
 
         // Check if user and post are valid
         if (user != null && post != null) {
