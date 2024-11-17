@@ -51,4 +51,18 @@ public class ConnectionController {
         return connections;
     }
 
+    // reject the connection request
+    // hit this API when user rejects the connection request
+    @PutMapping("/rejectRequest/{connectionId}")
+    public Connections rejectRequest(@PathVariable("connectionId") int connectionId) {
+        Connections connections = connectionsRepository.findByConnectionId(connectionId);
+        User FollowByUser = connections.getFounderUser();
+        connectionsRepository.deleteById(connectionId);
+        var totalConnections = FollowByUser.getNoOfConnections();
+        FollowByUser.setNoOfConnections(totalConnections - 1);
+        userRepository.save(FollowByUser);
+        return connections;
+    }
+
+
 }
