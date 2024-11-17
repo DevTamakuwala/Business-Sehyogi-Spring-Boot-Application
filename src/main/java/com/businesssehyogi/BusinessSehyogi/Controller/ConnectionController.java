@@ -64,5 +64,33 @@ public class ConnectionController {
         return connections;
     }
 
-
+    // Delete the connection (de connect)
+    // delete the connection on the request of any user
+    @DeleteMapping("/deleteConnection/{connectionId}")
+    public String deleteConnection(@PathVariable("connectionId") int connectionId) {
+        if (connectionsRepository.existsById(connectionId)) {
+            Connections connections = connectionsRepository.findByConnectionId(connectionId);
+            if (connections.getStatus().equals("Accept")) {
+                User FollowByUser = connections.getFounderUser();
+                User FollowToUser = connections.getCoFounderOrInvestorUser();
+                var totalConnections = FollowByUser.getNoOfConnections();
+                FollowByUser.setNoOfConnections(totalConnections - 1);
+                userRepository.save(FollowByUser);
+                totalConnections = FollowToUser.getNoOfConnections();
+                FollowToUser.setNoOfConnections(totalConnections - 1);
+                userRepository.save(FollowToUser);
+                connectionsRepository.deleteById(connectionId);
+                return "Connection deleted successfully.";
+            } else {
+                User FollowByUser = connections.getFounderUser();
+                var totalConnections = FollowByUser.getNoOfConnections();
+                FollowByUser.setNoOfConnections(totalConnections - 1);
+                userRepository.save(FollowByUser);
+                connectionsRepository.deleteById(connectionId);
+                return "Connection request deleted successfully.";
+            }
+        } else {
+            return "Connection not found.";
+        }
+    }
 }
