@@ -7,6 +7,8 @@ import com.businesssehyogi.BusinessSehyogi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class ConnectionController {
@@ -92,5 +94,12 @@ public class ConnectionController {
         } else {
             return "Connection not found.";
         }
+    }
+
+    // get all connection of user by user ID
+    @GetMapping("/getAllConnection/{userId}")
+    public List<Connections> getAllConnections(@PathVariable("userId") int userId) {
+        User user = userRepository.findByUserId(userId).orElse(null);
+        return connectionsRepository.findByFounderUser(user);
     }
 }
