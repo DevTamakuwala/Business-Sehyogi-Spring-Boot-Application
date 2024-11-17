@@ -37,5 +37,18 @@ public class ConnectionController {
         return connections;
     }
 
+    // accept the connection request
+    // hit this API when user accept the connection request
+    @PutMapping("/acceptRequest/{connectionId}")
+    public Connections acceptRequest(@PathVariable("connectionId") int connectionId) {
+        Connections connections = connectionsRepository.findByConnectionId(connectionId);
+        User FollowToUser = connections.getCoFounderOrInvestorUser();
+        connections.setStatus("Accept");
+        connectionsRepository.save(connections);
+        var totalConnections = FollowToUser.getNoOfConnections();
+        FollowToUser.setNoOfConnections(totalConnections + 1);
+        userRepository.save(FollowToUser);
+        return connections;
+    }
 
 }
