@@ -27,6 +27,7 @@ public class User {
     private LocalDate DateOfBirth;
     private char gender;
     private BigDecimal contactNo;
+    private Long noOfConnections;
     private String category;
     private String photo;
     private boolean visible;
@@ -45,7 +46,7 @@ public class User {
         this.userId = userId;
     }
 
-    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
+    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, Long noOfConnections, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -54,6 +55,7 @@ public class User {
         DateOfBirth = dateOfBirth;
         this.gender = gender;
         this.contactNo = contactNo;
+        this.noOfConnections = noOfConnections;
         this.category = category;
         this.photo = photo;
         this.visible = visible;
@@ -190,5 +192,13 @@ public class User {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public Long getNoOfConnections() {
+        return noOfConnections;
+    }
+
+    public void setNoOfConnections(Long noOfConnections) {
+        this.noOfConnections = noOfConnections;
     }
 }

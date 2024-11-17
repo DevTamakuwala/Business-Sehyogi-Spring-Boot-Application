@@ -36,6 +36,7 @@ public class PostController {
     private PaymentRepository paymentRepository;
 
     // for home page
+    // for investor
     @GetMapping("/getPostForHomePage/{userId}")
     public List<Object> getPostForHomePage(@PathVariable int userId) {
         List<Post> posts = postRepository.findPostsSortedByLikesAndUploadDate();
@@ -128,6 +129,7 @@ public class PostController {
     }
 
     //get all posts
+    // for admin
     @GetMapping("/getPosts")
     public List<Object> getAllPosts() {
         List<Post> posts = postRepository.findAll();
@@ -208,7 +210,7 @@ public class PostController {
 
 
     // updating the post
-    @PutMapping("updatePost/{id}")
+    @PutMapping("/updatePost/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable int id, @RequestBody Post postDetails) {
         Optional<Post> postOptional = postRepository.findById(id);
         if (postOptional.isPresent()) {
