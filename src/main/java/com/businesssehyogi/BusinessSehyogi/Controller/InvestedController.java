@@ -3,10 +3,7 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 import com.businesssehyogi.BusinessSehyogi.Repository.InvestedRepository;
 import com.businesssehyogi.BusinessSehyogi.model.Invested;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +17,10 @@ public class InvestedController {
     @GetMapping("/getAllInvestments")
     public List<Invested> getAllInvestments() {
         return investedRepository.findAll();
+    }
+
+    @GetMapping("/getInvestment/{investmentId}")
+    public Invested getInvestment(@PathVariable("investmentId") int investmentId) {
+        return investedRepository.findByInvestId(investmentId);
     }
 }

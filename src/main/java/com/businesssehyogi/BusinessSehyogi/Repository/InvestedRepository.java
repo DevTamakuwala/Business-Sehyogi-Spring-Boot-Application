@@ -4,4 +4,5 @@ import com.businesssehyogi.BusinessSehyogi.model.Invested;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InvestedRepository extends JpaRepository<Invested, Integer> {
+    Invested findByInvestId(int investmentId);
 }
