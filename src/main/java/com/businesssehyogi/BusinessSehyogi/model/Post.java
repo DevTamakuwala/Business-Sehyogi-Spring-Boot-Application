@@ -44,7 +44,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(int postId, String title, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links) {
+    public Post(int postId, String title, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, User user, InterestArea areaOfPost1, List<Images> images, List<Links> links, List<Comment> comments) {
         this.postId = postId;
         this.title = title;
         this.abstractContent = abstractContent;
@@ -59,6 +59,7 @@ public class Post {
         this.areaOfPost = areaOfPost1;
         this.images = images;
         this.links = links;
+        this.comments = comments;
         this.dateAndTime = LocalDateTime.now();
     }
 
@@ -180,5 +181,13 @@ public class Post {
 
     public void setNoOfComments(Long noOfComments) {
         this.noOfComments = noOfComments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
