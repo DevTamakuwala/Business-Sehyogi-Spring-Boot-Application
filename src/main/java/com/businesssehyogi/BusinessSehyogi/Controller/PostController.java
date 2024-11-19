@@ -11,6 +11,8 @@ import com.businesssehyogi.BusinessSehyogi.model.InterestArea;
 import com.businesssehyogi.BusinessSehyogi.model.Post;
 import com.businesssehyogi.BusinessSehyogi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +40,9 @@ public class PostController {
     // for home page
     // for investor
     @GetMapping("/getPostForHomePage/{userId}")
-    public List<Object> getPostForHomePage(@PathVariable int userId) {
-        List<Post> posts = postRepository.findPostsSortedByLikesAndUploadDate();
+    public List<Object> getPostForHomePage(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "7") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Post> posts = postRepository.findPostsSortedByLikesAndUploadDate(pageable);
         List<Object> result = new ArrayList<>();
 
         for (Post post : posts) {
