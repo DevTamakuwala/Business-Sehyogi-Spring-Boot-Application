@@ -1,8 +1,7 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")
@@ -35,6 +35,9 @@ public class User {
     private boolean contactNoVerified;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss")
     private LocalDate dateTimeOfRegistration;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Post> posts;
 
     public User() {
         this.visible = true;
@@ -200,5 +203,13 @@ public class User {
 
     public void setNoOfConnections(Long noOfConnections) {
         this.noOfConnections = noOfConnections;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

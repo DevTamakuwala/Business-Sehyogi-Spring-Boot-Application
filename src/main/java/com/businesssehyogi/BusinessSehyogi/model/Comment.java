@@ -1,5 +1,6 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "postId", nullable = false)
+    @JsonBackReference
     private Post post;
 
     @Temporal(TemporalType.TIMESTAMP)

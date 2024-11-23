@@ -27,6 +27,7 @@ public class Post {
     private boolean boostedPost;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JsonManagedReference
     private User user;
     @ManyToOne
     @JoinColumn(name = "area_id", referencedColumnName = "interestAreaId")
@@ -34,11 +35,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Images> images;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Links> links;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Comment> comments;
 
     public Post() {
