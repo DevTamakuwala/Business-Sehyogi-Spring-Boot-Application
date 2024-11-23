@@ -7,8 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,7 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate DateOfBirth;
     private char gender;
-    private BigDecimal contactNo;
+    private BigInteger contactNo;
     private Long noOfConnections;
     private String category;
     private String photo;
@@ -34,7 +35,7 @@ public class User {
     private boolean emailVerified;
     private boolean contactNoVerified;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss")
-    private LocalDate dateTimeOfRegistration;
+    private LocalDateTime dateTimeOfRegistration;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Post> posts;
@@ -49,7 +50,7 @@ public class User {
         this.userId = userId;
     }
 
-    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigDecimal contactNo, Long noOfConnections, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
+    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigInteger contactNo, Long noOfConnections, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -93,11 +94,11 @@ public class User {
         this.emailVerified = emailVerified;
     }
 
-    public LocalDate getDateTimeOfRegistration() {
+    public LocalDateTime getDateTimeOfRegistration() {
         return dateTimeOfRegistration;
     }
 
-    public void setDateTimeOfRegistration(LocalDate dateTimeOfRegistration) {
+    public void setDateTimeOfRegistration(LocalDateTime dateTimeOfRegistration) {
         this.dateTimeOfRegistration = dateTimeOfRegistration;
     }
 
@@ -165,11 +166,11 @@ public class User {
         this.gender = gender;
     }
 
-    public BigDecimal getContactNo() {
+    public BigInteger getContactNo() {
         return contactNo;
     }
 
-    public void setContactNo(BigDecimal contactNo) {
+    public void setContactNo(BigInteger contactNo) {
         this.contactNo = contactNo;
     }
 

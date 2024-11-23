@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,6 +69,7 @@ public class UserController {
         } else {
             user.setDateOfBirth(null);
         }
+        user.setDateTimeOfRegistration(LocalDateTime.now());
         repo.save(user);
         return repo.findByEmail(user.getEmail());
     }
@@ -119,7 +120,7 @@ public class UserController {
     public String sendSMS(@PathVariable("userId") int userId) {
         User user = repo.findById(userId).orElse(new User());
         int OTP = generateOtp();
-        String contactNo = "+91" + user.getContactNo().toBigInteger();
+        String contactNo = "+91" + user.getContactNo();
         System.out.println("contactNo " + contactNo);
         if (user.getContactNo() != null) {
             sms.sendSms(contactNo, "Your OTP is: " + OTP);
@@ -149,7 +150,7 @@ public class UserController {
     @PostMapping(value = "/updateUser/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User updateUser(@Valid @RequestBody User newUserData, @PathVariable("userId") int userId) {
         User findUser = repo.findById(userId).orElse(new User());
-        BigDecimal newContactNo;
+        BigInteger newContactNo;
         char newGender;
         String newFirstName, newLastName;
         if (newUserData.getContactNo() == null) {

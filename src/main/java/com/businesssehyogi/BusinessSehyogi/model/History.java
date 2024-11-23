@@ -2,8 +2,8 @@ package com.businesssehyogi.BusinessSehyogi.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_history")
@@ -24,18 +24,17 @@ public class History {
     private String oldPassword;
 
     @Column(name = "old_contact")
-    private BigDecimal oldContact;
+    private BigInteger oldContact;
 
     @Column(name = "change_date")
-    @Temporal(TemporalType.DATE)
-    private Date changeDate;
+    private LocalDateTime changeDate;
 
     // Default constructor
     public History() {
     }
 
     // Parameterized constructor
-    public History(User user, String oldEmail, String oldPassword, BigDecimal oldContact, Date changeDate) {
+    public History(User user, String oldEmail, String oldPassword, BigInteger oldContact, LocalDateTime changeDate) {
         this.user = user;
         this.oldEmail = oldEmail;
         this.oldPassword = oldPassword;
@@ -76,19 +75,19 @@ public class History {
         this.oldPassword = oldPassword;
     }
 
-    public BigDecimal getOldContact() {
+    public BigInteger getOldContact() {
         return oldContact;
     }
 
-    public void setOldContact(BigDecimal oldContact) {
+    public void setOldContact(BigInteger oldContact) {
         this.oldContact = oldContact;
     }
 
-    public Date getChangeDate() {
+    public LocalDateTime getChangeDate() {
         return changeDate;
     }
 
-    public void setChangeDate(Date changeDate) {
+    public void setChangeDate(LocalDateTime changeDate) {
         this.changeDate = changeDate;
     }
 }
