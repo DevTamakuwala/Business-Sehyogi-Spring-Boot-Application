@@ -1,5 +1,6 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,8 @@ import java.util.Set;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Add @GeneratedValue for auto-increment
+    private int payment_id;
 
     @ManyToMany
     @JoinTable(
@@ -27,18 +28,31 @@ public class Payment {
             joinColumns = @JoinColumn(name = "payment_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
+    @JsonManagedReference
     private Set<Post> posts; // Many-to-Many relationship with Post
 
     private Double amount;
     private LocalDateTime paymentDateTime;
     private String transactionId; // From the payment gateway
 
-    public Long getPaymentId() {
-        return paymentId;
+    public Payment() {
     }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
+    public Payment(Set<User> users, Set<Post> posts, Double amount, LocalDateTime paymentDateTime, String transactionId) {
+        this.users = users;
+        this.posts = posts;
+        this.amount = amount;
+        this.paymentDateTime = paymentDateTime;
+        this.transactionId = transactionId;
+    }
+
+    // Getters and Setters
+    public int getPayment_id() {
+        return payment_id;
+    }
+
+    public void setPayment_id(int payment_id) {
+        this.payment_id = payment_id;
     }
 
     public Set<User> getUsers() {

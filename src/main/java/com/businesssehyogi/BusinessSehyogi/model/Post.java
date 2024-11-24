@@ -1,5 +1,6 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -41,6 +42,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Comment> comments;
+    @ManyToMany(mappedBy = "posts")
+    @JsonBackReference
+    private List<Payment> payments;
 
     public Post() {
     }

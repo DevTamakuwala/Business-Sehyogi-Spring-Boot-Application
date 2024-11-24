@@ -2,7 +2,7 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.Repository.QueryRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.UserRepository;
-import com.businesssehyogi.BusinessSehyogi.Service.sendOTPEmail;
+import com.businesssehyogi.BusinessSehyogi.Service.sendEmail;
 import com.businesssehyogi.BusinessSehyogi.model.Queries;
 import com.businesssehyogi.BusinessSehyogi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class QueryController {
     UserRepository userRepository;
 
     @Autowired
-    sendOTPEmail sendMail;
+    sendEmail sendMail;
 
     //get all queries
     //for admin

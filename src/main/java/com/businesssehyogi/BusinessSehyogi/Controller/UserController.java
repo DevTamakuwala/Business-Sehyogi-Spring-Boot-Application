@@ -3,7 +3,7 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 import com.businesssehyogi.BusinessSehyogi.DTO.loginDTO;
 import com.businesssehyogi.BusinessSehyogi.Repository.InvestorRepository;
 import com.businesssehyogi.BusinessSehyogi.Repository.UserRepository;
-import com.businesssehyogi.BusinessSehyogi.Service.sendOTPEmail;
+import com.businesssehyogi.BusinessSehyogi.Service.sendEmail;
 import com.businesssehyogi.BusinessSehyogi.Service.sendSMS;
 import com.businesssehyogi.BusinessSehyogi.model.Investor;
 import com.businesssehyogi.BusinessSehyogi.model.User;
@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     UserRepository repo;
     @Autowired
-    sendOTPEmail sendMail;
+    sendEmail sendMail;
     @Autowired
     sendSMS sms;
     @Autowired
@@ -71,6 +71,7 @@ public class UserController {
         }
         user.setDateTimeOfRegistration(LocalDateTime.now());
         repo.save(user);
+        sendMail.sendMail(user.getEmail(), "Thank you for joining with Business Sehyogi", "Welcome, " + user.getFirstName() + user.getFirstName() + " to Business Sehyogi family. An amazing platform to share your ideas and find potential co-founders as well as investors on a single platform.\nTeam Business Sehyogi");
         return repo.findByEmail(user.getEmail());
     }
 
@@ -85,6 +86,7 @@ public class UserController {
         repo.save(userInvestorWrapper.getUser());
         User user1 = repo.findByEmail(userInvestorWrapper.getUser().getEmail());
         userInvestorWrapper.getInvestor().setUserId(user1);
+        sendMail.sendMail(userInvestorWrapper.getUser().getEmail(), "Thank you for joining with Business Sehyogi", "Welcome, " + userInvestorWrapper.getUser().getFirstName() + userInvestorWrapper.getUser().getFirstName() + "Our team contact you soon for completing the on boarding process.\nFor any queries related to the platform or on boarding process feel free to contact us by replying on this mail.\nTeam Business Sehyogi");
         return investorRepo.save(userInvestorWrapper.getInvestor());
     }
 
