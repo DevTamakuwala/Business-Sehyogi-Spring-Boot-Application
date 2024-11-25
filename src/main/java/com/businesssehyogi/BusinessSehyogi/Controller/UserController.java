@@ -8,10 +8,13 @@ import com.businesssehyogi.BusinessSehyogi.Service.sendSMS;
 import com.businesssehyogi.BusinessSehyogi.model.Investor;
 import com.businesssehyogi.BusinessSehyogi.model.User;
 import com.businesssehyogi.BusinessSehyogi.wrapper.UserInvestorWrapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -33,14 +36,22 @@ public class UserController {
     @Autowired
     InvestorRepository investorRepo;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @GetMapping("/encodePassword")
+    public String encodePassword(@RequestParam("password") String password) {
+        return passwordEncoder.encode(password);
+    }
+
     private int generateOtp() {
         return (int) (Math.random() * 100000);
     }
 
-//    @GetMapping("/Csrf-Token")
-//    public CsrfToken generateCSRF(HttpServletRequest httpServletRequest){
-//        return (CsrfToken) httpServletRequest.getAttribute("_csrf");
-//    }
+    @GetMapping("/Csrf-Token")
+    public CsrfToken generateCSRF(HttpServletRequest httpServletRequest) {
+        return (CsrfToken) httpServletRequest.getAttribute("_csrf");
+    }
 
     //get All users
     @GetMapping("/getUsers")
@@ -55,9 +66,14 @@ public class UserController {
     }
 
     //Login
-    @GetMapping("/login/{email}")
-    public loginDTO getUserForLogin(@Valid @PathVariable("email") String email) {
-        return repo.login(email);
+    @GetMapping("/login")
+    public boolean getUserForLogin(@RequestParam("email") String email, @RequestParam("password") String password) {
+        loginDTO loginDTO = repo.login(email);
+        if (loginDTO != null) {
+            // Check if the entered password matches the stored password
+            return passwordEncoder.matches(password, loginDTO.getPassword());
+        }
+        return true;
     }
 
     //Register user
@@ -70,6 +86,11 @@ public class UserController {
             user.setDateOfBirth(null);
         }
         user.setDateTimeOfRegistration(LocalDateTime.now());
+        sendMail.sendMail(user.getEmail(), "Thank you for joining with Business Sehyogi", "Welcome, " + user.getFirstName() + user.getFirstName() + " to Business Sehyogi family. An amazing platform to share your ideas and find potential co-founders as well as investors on a single platform." +
+                "\nThis your account password, you can login with this password:" + user.getPassword() +
+                "\nwhere ever you want, also you can reset your password whenever you want using out website." +
+                "\nTeam Business Sehyogi");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repo.save(user);
         sendMail.sendMail(user.getEmail(), "Thank you for joining with Business Sehyogi", "Welcome, " + user.getFirstName() + user.getFirstName() + " to Business Sehyogi family. An amazing platform to share your ideas and find potential co-founders as well as investors on a single platform.\nTeam Business Sehyogi");
         return repo.findByEmail(user.getEmail());
