@@ -2,6 +2,7 @@ package com.businesssehyogi.BusinessSehyogi.DTO;
 
 import com.businesssehyogi.BusinessSehyogi.model.Images;
 import com.businesssehyogi.BusinessSehyogi.model.Links;
+import com.businesssehyogi.BusinessSehyogi.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,9 +20,10 @@ public class FullPostResponse {
     private boolean boostedPost;
     private List<Images> images;
     private List<Links> links;
+    private User user;
 
     // Constructor
-    public FullPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, List<Images> images, List<Links> links) {
+    public FullPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, String content, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, List<Images> images, List<Links> links, User user) {
         this.postId = postId;
         this.dateAndTime = dateAndTime;
         this.abstractContent = abstractContent;
@@ -34,6 +36,7 @@ public class FullPostResponse {
         this.boostedPost = boostedPost;
         this.images = images;
         this.links = links;
+        this.user = user;
     }
 
     public FullPostResponse(Long noOfComments) {
@@ -134,6 +137,14 @@ public class FullPostResponse {
 
     public void setNoOfComments(Long noOfComments) {
         this.noOfComments = noOfComments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // Getters and setters omitted for brevity

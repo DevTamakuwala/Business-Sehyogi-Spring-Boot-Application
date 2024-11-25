@@ -16,6 +16,8 @@ public interface LikesRepository extends JpaRepository<Like, Integer> {
 
     // Method to find a Like by user and post
     boolean existsByUserAndPost(User user, Post post);
+
+    Like findByUserAndPost(User user, Post post);
     // Or you can use a custom query if needed:
     // @Query("SELECT l FROM Like l WHERE l.post.postId = :postId")
     // List<Like> findLikesByPostId(@Param("postId") int postId);

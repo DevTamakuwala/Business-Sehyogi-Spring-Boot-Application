@@ -40,7 +40,7 @@ public class Post {
     @JsonManagedReference
     private List<Links> links;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Comment> comments;
     @ManyToMany(mappedBy = "posts")
     @JsonBackReference

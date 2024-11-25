@@ -1,5 +1,7 @@
 package com.businesssehyogi.BusinessSehyogi.DTO;
 
+import com.businesssehyogi.BusinessSehyogi.model.User;
+
 import java.time.LocalDateTime;
 
 public class AbstractPostResponse {
@@ -12,9 +14,10 @@ public class AbstractPostResponse {
     private boolean visible;
     private int views;
     private boolean boostedPost;
+    private User user;
 
     // Constructor
-    public AbstractPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost) {
+    public AbstractPostResponse(int postId, LocalDateTime dateAndTime, String abstractContent, Long noOfLikes, Long noOfInterested, Long noOfComments, boolean visible, int views, boolean boostedPost, User user) {
         this.postId = postId;
         this.dateAndTime = dateAndTime;
         this.abstractContent = abstractContent;
@@ -24,6 +27,7 @@ public class AbstractPostResponse {
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
+        this.user = user;
     }
 
     public AbstractPostResponse() {
@@ -99,5 +103,13 @@ public class AbstractPostResponse {
 
     public void setNoOfComments(Long noOfComments) {
         this.noOfComments = noOfComments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

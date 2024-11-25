@@ -46,38 +46,42 @@ public class PostController {
         List<Object> result = new ArrayList<>();
 
         for (Post post : posts) {
-            boolean hasPaid = paymentRepository.hasUserPaidForPost(userId, post.getPostId());
+            if (post.getUser().getUserId() != userId) {
+                boolean hasPaid = paymentRepository.hasUserPaidForPost(userId, post.getPostId());
 
-            if (hasPaid) {
-                // If user has paid, return the full content with images and links
-                FullPostResponse fullPostResponse = new FullPostResponse(
-                        post.getPostId(),
-                        post.getDateAndTime(),
-                        post.getAbstractContent(),
-                        post.getContent(),
-                        post.getNoOfLikes(),
-                        post.getNoOfInterested(),
-                        post.getNoOfComments(),
-                        post.isVisible(),
-                        post.getViews(),
-                        post.isBoostedPost(),
-                        post.getImages(),
-                        post.getLinks()
-                );
-                result.add(fullPostResponse);
-            } else {
-                // If user hasn't paid, return only the abstract content with images and links
-                result.add(new AbstractPostResponse(
-                        post.getPostId(),
-                        post.getDateAndTime(),
-                        post.getAbstractContent(),
-                        post.getNoOfLikes(),
-                        post.getNoOfInterested(),
-                        post.getNoOfComments(),
-                        post.isVisible(),
-                        post.getViews(),
-                        post.isBoostedPost()
-                ));
+                if (hasPaid) {
+                    // If user has paid, return the full content with images and links
+                    FullPostResponse fullPostResponse = new FullPostResponse(
+                            post.getPostId(),
+                            post.getDateAndTime(),
+                            post.getAbstractContent(),
+                            post.getContent(),
+                            post.getNoOfLikes(),
+                            post.getNoOfInterested(),
+                            post.getNoOfComments(),
+                            post.isVisible(),
+                            post.getViews(),
+                            post.isBoostedPost(),
+                            post.getImages(),
+                            post.getLinks(),
+                            post.getUser()
+                    );
+                    result.add(fullPostResponse);
+                } else {
+                    // If user hasn't paid, return only the abstract content with images and links
+                    result.add(new AbstractPostResponse(
+                            post.getPostId(),
+                            post.getDateAndTime(),
+                            post.getAbstractContent(),
+                            post.getNoOfLikes(),
+                            post.getNoOfInterested(),
+                            post.getNoOfComments(),
+                            post.isVisible(),
+                            post.getViews(),
+                            post.isBoostedPost(),
+                            post.getUser()
+                    ));
+                }
             }
         }
 
@@ -108,7 +112,8 @@ public class PostController {
                         post.getViews(),
                         post.isBoostedPost(),
                         post.getImages(),
-                        post.getLinks()
+                        post.getLinks(),
+                        post.getUser()
                 );
                 return ResponseEntity.ok(fullPostResponse);
             } else {
@@ -122,7 +127,8 @@ public class PostController {
                         post.getNoOfComments(),
                         post.isVisible(),
                         post.getViews(),
-                        post.isBoostedPost()
+                        post.isBoostedPost(),
+                        post.getUser()
                 );
                 return ResponseEntity.ok(abstractPostResponse);
             }
@@ -151,7 +157,8 @@ public class PostController {
                     post.getViews(),
                     post.isBoostedPost(),
                     post.getImages(),
-                    post.getLinks()
+                    post.getLinks(),
+                    post.getUser()
             );
             result.add(fullPostResponse);
         }

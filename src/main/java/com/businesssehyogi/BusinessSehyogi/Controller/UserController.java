@@ -61,8 +61,8 @@ public class UserController {
     }
 
     //Register user
-    @PostMapping(value = "/registerUser", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User addUser(@Valid @RequestBody User user) {
+    @PostMapping(value = "/registerUser", consumes = "application/json")
+    public User addUser(@RequestBody User user) {
         if (user.getDateOfBirth() != null) {
             LocalDate dateOfBirth = LocalDate.parse(user.getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             user.setDateOfBirth(dateOfBirth);
@@ -150,7 +150,7 @@ public class UserController {
 
     //Update user
     @PostMapping(value = "/updateUser/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@Valid @RequestBody User newUserData, @PathVariable("userId") int userId) {
+    public User updateUser(@RequestBody User newUserData, @PathVariable("userId") int userId) {
         User findUser = repo.findById(userId).orElse(new User());
         BigInteger newContactNo;
         char newGender;

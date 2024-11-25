@@ -43,8 +43,9 @@ public class LikeController {
         if (user != null && post != null) {
             // Check if the user has already liked the post
             boolean alreadyLiked = likesRepository.existsByUserAndPost(user, post);
-
+            Like like1 = likesRepository.findByUserAndPost(user, post);
             if (alreadyLiked) {
+                likesRepository.deleteById(like1.getLikeId());
                 return "User has already liked this post!";
             } else {
                 // Create a new Like object
