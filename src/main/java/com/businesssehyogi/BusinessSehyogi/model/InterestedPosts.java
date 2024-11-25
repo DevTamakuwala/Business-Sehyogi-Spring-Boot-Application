@@ -1,6 +1,5 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,12 +12,12 @@ public class InterestedPosts {
 
     @ManyToOne
     @JoinColumn(name = "investor_id", referencedColumnName = "investorId", nullable = false)
-    @JsonBackReference
+//    @JsonBackReference
     private Investor investor;
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "postId", nullable = false)
-    @JsonBackReference
+//    @JsonBackReference
     private Post post;
 
     // Default constructor

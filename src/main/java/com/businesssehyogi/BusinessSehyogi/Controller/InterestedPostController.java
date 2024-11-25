@@ -74,7 +74,11 @@ public class InterestedPostController {
         } else {
             return "User not found.";
         }
-
     }
 
+    @GetMapping("/getAllInterestForPost")
+    public List<InterestedPosts> getAllInterestForPost(@RequestParam("postId") int postId) {
+        Post post = postRepository.findByPostId(postId);
+        return interestedPostsRepository.findByPost(post);
+    }
 }
