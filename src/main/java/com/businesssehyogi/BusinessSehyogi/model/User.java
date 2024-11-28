@@ -29,6 +29,7 @@ public class User {
     private char gender;
     private BigInteger contactNo;
     private Long noOfConnections;
+    private Long noOfIdeas;
     private String category;
     private String photo;
     private boolean visible;
@@ -50,7 +51,7 @@ public class User {
         this.userId = userId;
     }
 
-    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigInteger contactNo, Long noOfConnections, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
+    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigInteger contactNo, Long noOfConnections, Long noOfIdeas, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,6 +61,7 @@ public class User {
         this.gender = gender;
         this.contactNo = contactNo;
         this.noOfConnections = noOfConnections;
+        this.noOfIdeas = noOfIdeas;
         this.category = category;
         this.photo = photo;
         this.visible = visible;
@@ -204,6 +206,14 @@ public class User {
 
     public void setNoOfConnections(Long noOfConnections) {
         this.noOfConnections = noOfConnections;
+    }
+
+    public Long getNoOfIdeas() {
+        return noOfIdeas;
+    }
+
+    public void setNoOfIdeas(Long noOfIdeas) {
+        this.noOfIdeas = noOfIdeas;
     }
 
 //    public List<Post> getPosts() {

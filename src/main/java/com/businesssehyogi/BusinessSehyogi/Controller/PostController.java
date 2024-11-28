@@ -166,10 +166,59 @@ public class PostController {
         return result;
     }
 
-    // all post of one founder
+    // all post of one user founder
     @GetMapping("/getPostsForFounder/{userId}")
     public List<Post> getPostsForFounder(@PathVariable("userId") int userId) {
         return postRepository.findByUserUserId(userId);
+    }
+
+    @GetMapping("/getPostsForFounderProfile/{profileEmail}/{loggedInUserId}")
+    public List<Object> getPostsForFounderProfile(@PathVariable("profileEmail") String email, @PathVariable("loggedInUserId") int userId) {
+        User user = userRepository.findByEmail(email);
+        List<Post> posts = postRepository.findByUser(user);
+        List<Object> result = new ArrayList<>();
+
+        for (Post post : posts) {
+            if (post.getUser().getUserId() != userId) {
+                boolean hasPaid = paymentRepository.hasUserPaidForPost(userId, post.getPostId());
+
+                if (hasPaid) {
+                    // If user has paid, return the full content with images and links
+                    FullPostResponse fullPostResponse = new FullPostResponse(
+                            post.getPostId(),
+                            post.getDateAndTime(),
+                            post.getAbstractContent(),
+                            post.getContent(),
+                            post.getNoOfLikes(),
+                            post.getNoOfInterested(),
+                            post.getNoOfComments(),
+                            post.isVisible(),
+                            post.getViews(),
+                            post.isBoostedPost(),
+                            post.getImages(),
+                            post.getLinks(),
+                            post.getUser()
+                    );
+                    result.add(fullPostResponse);
+                } else {
+                    // If user hasn't paid, return only the abstract content with images and links
+                    result.add(new AbstractPostResponse(
+                            post.getPostId(),
+                            post.getDateAndTime(),
+                            post.getAbstractContent(),
+                            post.getNoOfLikes(),
+                            post.getNoOfInterested(),
+                            post.getNoOfComments(),
+                            post.isVisible(),
+                            post.getViews(),
+                            post.isBoostedPost(),
+                            post.getUser()
+                    ));
+                }
+            }
+        }
+
+        return result;
     }
 
 
@@ -184,9 +233,12 @@ public class PostController {
     @GetMapping("/deletePost/{id}")
     public String deletePost(@PathVariable int id) {
         Post post = postRepository.findById(id).orElse(new Post());
-        if (post.isVisible()) {
+        User user = userRepository.findByUserId(post.getUser().getUserId()).orElse(null);
+        if (post.isVisible() && user != null) {
             post.setVisible(false);
             postRepository.save(post);
+            user.setNoOfIdeas(user.getNoOfIdeas() - 1);
+            userRepository.save(user);
             return "Post deleted successfully..!!";
         }
         return "";
@@ -194,13 +246,13 @@ public class PostController {
 
     //add new post
     @PostMapping("/addPost")
-    public ResponseEntity<Post> createPost(@RequestBody PostRequest postRequest) {
+    public boolean createPost(@RequestBody PostRequest postRequest) {
         // Fetch the User and InterestArea entities based on the IDs in the request
         Optional<User> userOptional = userRepository.findById(postRequest.getUserId());
         Optional<InterestArea> areaOptional = interestAreaRepository.findById(postRequest.getAreaId());
 
         if (userOptional.isEmpty() || areaOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
+            return false;
         }
         Post post = new Post();
         post.setDateAndTime(postRequest.getDateAndTime());
@@ -214,8 +266,10 @@ public class PostController {
         post.setBoostedPost(postRequest.isBoostedPost());
         post.setUser(userOptional.get());
         post.setAreaOfPost(areaOptional.get());
-        Post savedPost = postRepository.save(post);
-        return ResponseEntity.ok(savedPost);
+        postRepository.save(post);
+        userOptional.get().setNoOfIdeas(userOptional.get().getNoOfIdeas() + 1);
+        userRepository.save(userOptional.get());
+        return true;
     }
 
 

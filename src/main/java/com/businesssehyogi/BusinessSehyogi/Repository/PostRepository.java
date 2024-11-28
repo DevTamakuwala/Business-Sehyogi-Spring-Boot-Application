@@ -1,6 +1,7 @@
 package com.businesssehyogi.BusinessSehyogi.Repository;
 
 import com.businesssehyogi.BusinessSehyogi.model.Post;
+import com.businesssehyogi.BusinessSehyogi.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findTopPosts();
 
     Post findByPostId(int postId);
+
+    List<Post> findByUser(User user);
 }
