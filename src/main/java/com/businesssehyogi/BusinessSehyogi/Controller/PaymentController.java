@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class PaymentController {
             posts.add(post);
 
             // Remove the payment_id from the constructor, as it will be generated automatically
-            Payment payment = new Payment(users, posts, paymentRequest.getAmount(), paymentRequest.getPaymentDateTime(), paymentRequest.getTransactionId());
+            Payment payment = new Payment(users, posts, paymentRequest.getAmount(), LocalDateTime.now(), paymentRequest.getTransactionId());
 
             // Save the payment and return it
             return paymentRepository.save(payment);

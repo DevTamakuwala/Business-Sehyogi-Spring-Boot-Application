@@ -1,14 +1,14 @@
 package com.businesssehyogi.BusinessSehyogi.DTO;
 
 public class loginDTO {
-    private int userId;
+    private int user_id;
     private String email;
     private String password;
     private String category;
     private boolean visible;
 
     public loginDTO(int userId, String email, String password, String category, boolean visible) {
-        this.userId = userId;
+        this.user_id = userId;
         this.email = email;
         this.password = password;
         this.category = category;
@@ -18,7 +18,7 @@ public class loginDTO {
     @Override
     public String toString() {
         return "loginDTO{" +
-                "userId=" + userId +
+                "userId=" + user_id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", visible=" + visible +
@@ -26,11 +26,11 @@ public class loginDTO {
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public String getEmail() {

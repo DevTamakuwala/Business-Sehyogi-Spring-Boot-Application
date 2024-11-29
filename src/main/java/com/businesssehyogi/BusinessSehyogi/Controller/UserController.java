@@ -1,11 +1,12 @@
 package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.DTO.loginDTO;
-import com.businesssehyogi.BusinessSehyogi.Repository.InvestorRepository;
-import com.businesssehyogi.BusinessSehyogi.Repository.UserRepository;
+import com.businesssehyogi.BusinessSehyogi.Repository.*;
+import com.businesssehyogi.BusinessSehyogi.Service.UserService;
 import com.businesssehyogi.BusinessSehyogi.Service.sendEmail;
 import com.businesssehyogi.BusinessSehyogi.Service.sendSMS;
 import com.businesssehyogi.BusinessSehyogi.model.Investor;
+import com.businesssehyogi.BusinessSehyogi.model.Post;
 import com.businesssehyogi.BusinessSehyogi.model.User;
 import com.businesssehyogi.BusinessSehyogi.wrapper.UserInvestorWrapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,9 +36,18 @@ public class UserController {
     sendSMS sms;
     @Autowired
     InvestorRepository investorRepo;
+    @Autowired
+    PostRepository postRepository;
+    @Autowired
+    ConnectionsRepository connectionsRepository;
+    @Autowired
+    UserService userService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    LikesRepository likesRepository;
 
     @GetMapping("/encodePassword")
     public String encodePassword(@RequestParam("password") String password) {
@@ -63,6 +73,13 @@ public class UserController {
     @GetMapping("/getUser/{email}")
     public User getUser(@Valid @PathVariable("email") String email) {
         return repo.findByEmail(email);
+    }
+
+    // for explore page
+    @GetMapping("/available")
+    public ResponseEntity<List<User>> getAvailableUsers(@RequestParam int currentUserId) {
+        List<User> availableUsers = userService.getAvailableUsers(currentUserId);
+        return ResponseEntity.ok(availableUsers);
     }
 
     //Login
@@ -96,20 +113,44 @@ public class UserController {
         return repo.findByEmail(user.getEmail());
     }
 
-    //Register Investor
     @PostMapping(value = "/registerInvestor", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Investor addInvestor(@Valid @RequestBody UserInvestorWrapper userInvestorWrapper) {
+        // Parse and set date of birth if provided
         if (userInvestorWrapper.getUser().getDateOfBirth() != null) {
             LocalDate dateOfBirth = LocalDate.parse(userInvestorWrapper.getUser().getDateOfBirth().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             userInvestorWrapper.getUser().setDateOfBirth(dateOfBirth);
         }
-        System.out.println(userInvestorWrapper.getUser());
-        repo.save(userInvestorWrapper.getUser());
-        User user1 = repo.findByEmail(userInvestorWrapper.getUser().getEmail());
-        userInvestorWrapper.getInvestor().setUserId(user1);
-        sendMail.sendMail(userInvestorWrapper.getUser().getEmail(), "Thank you for joining with Business Sehyogi", "Welcome, " + userInvestorWrapper.getUser().getFirstName() + userInvestorWrapper.getUser().getFirstName() + "Our team contact you soon for completing the on boarding process.\nFor any queries related to the platform or on boarding process feel free to contact us by replying on this mail.\nTeam Business Sehyogi");
+
+        // Save User
+        User user = userInvestorWrapper.getUser();
+        System.out.println(userInvestorWrapper.getUser().isContactNoVerified());
+        user.setDateTimeOfRegistration(LocalDateTime.now()); // Set registration time
+        User savedUser = repo.save(user); // Save and get the saved user
+
+        // Link Investor to User
+        userInvestorWrapper.getInvestor().setUserId(savedUser);
+
+        // Send Welcome Email
+        sendMail.sendMail(
+                userInvestorWrapper.getUser().getEmail(),
+                "Thank you for joining with Business Sehyogi",
+                "Welcome, " + userInvestorWrapper.getUser().getFirstName() +
+                        "\nOur team will contact you soon for completing the onboarding process." +
+                        "\nFor any queries related to the platform or onboarding process, feel free to contact us by replying to this mail.\nTeam Business Sehyogi"
+        );
+
+        // Save Investor
         return investorRepo.save(userInvestorWrapper.getInvestor());
     }
+
+    // get if user has liked it or not
+    @GetMapping("/getLikesForPost/{userId}/{postId}")
+    public Boolean getLikesForPost(@PathVariable("userId") int userId, @PathVariable("postId") int postId) {
+        User user = repo.findByUserId(userId).orElse(null);
+        Post post = postRepository.findByPostId(postId);
+        return likesRepository.existsByUserAndPost(user, post);
+    }
+
 
     //Send mail
     @GetMapping("/sendMail/{userId}")

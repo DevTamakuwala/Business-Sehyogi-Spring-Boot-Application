@@ -15,4 +15,6 @@ public interface InterestedPostsRepository extends JpaRepository<InterestedPosts
     InterestedPosts findByInvestorAndPost(Investor investor, Post post);
 
     List<InterestedPosts> findByPost(Post post);
+
+    List<InterestedPosts> findByInvestor(Investor investor);
 }

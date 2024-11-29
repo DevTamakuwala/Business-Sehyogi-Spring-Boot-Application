@@ -33,12 +33,18 @@ public class InterestedPostController {
         return interestedPostsRepository.findAll();
     }
 
+    @GetMapping("/getAllInterestedPostsOfInvestor/{investorId}")
+    public List<InterestedPosts> getAllInterestedPostsOfInvestor(@PathVariable("investorId") int investorId) {
+        Investor investor = investorRepository.findByInvestorId(investorId);
+        return interestedPostsRepository.findByInvestor(investor);
+    }
+
     @PostMapping("/addInterestedPost")
     public String addInterestedPost(@RequestParam("investorId") int investorId, @RequestParam("postId") int postId) {
         Investor investor = investorRepository.findByInvestorId(investorId);
         Post post = postRepository.findByPostId(postId);
 
-        if (investor != null || post != null) {
+        if (investor != null && post != null) {
             boolean alreadyInterested = interestedPostsRepository.existsByInvestorAndPost(investor, post);
             InterestedPosts interestedPosts1 = interestedPostsRepository.findByInvestorAndPost(investor, post);
             if (alreadyInterested) {
@@ -48,7 +54,6 @@ public class InterestedPostController {
                 InterestedPosts interestedPosts = new InterestedPosts(investor, post);
 
                 interestedPostsRepository.save(interestedPosts);
-                assert investor != null;
                 email.sendMail(investor.getUserId().getEmail(), "Details of the post that you have interacted.",
                         "Recently you have shown your interest to one post on our platform, Here are all the information that you may required for connection with the owner." +
                                 "\nPost:\n" + post.getAbstractContent() + " " +

@@ -1,8 +1,6 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,6 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "tbl_user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "user_id")
     private int userId;
     private String firstName;
     private String lastName;
@@ -51,8 +51,8 @@ public class User {
         this.userId = userId;
     }
 
-    public User(int userId, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigInteger contactNo, Long noOfConnections, Long noOfIdeas, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
-        this.userId = userId;
+    public User(int user_id, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, char gender, BigInteger contactNo, Long noOfConnections, Long noOfIdeas, String category, String photo, boolean visible, boolean emailVerified, boolean contactNoVerified) {
+        this.userId = user_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

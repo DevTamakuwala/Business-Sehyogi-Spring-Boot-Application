@@ -27,7 +27,7 @@ public class ConnectionController {
         // getting the user's information who get followed by the other user either can be a founder or investor
         User FollowToUser = userRepository.findByUserId(followToUser).orElse(null);
         // Status of the follow request
-        var Status = "Pending";
+        var Status = "Accept";
         // adding new connection in table
         Connections connections = new Connections(FollowByUser, FollowToUser, Status);
         // saving the data in the table

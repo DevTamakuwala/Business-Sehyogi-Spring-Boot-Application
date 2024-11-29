@@ -246,13 +246,13 @@ public class PostController {
 
     //add new post
     @PostMapping("/addPost")
-    public boolean createPost(@RequestBody PostRequest postRequest) {
+    public Post createPost(@RequestBody PostRequest postRequest) {
         // Fetch the User and InterestArea entities based on the IDs in the request
         Optional<User> userOptional = userRepository.findById(postRequest.getUserId());
         Optional<InterestArea> areaOptional = interestAreaRepository.findById(postRequest.getAreaId());
 
         if (userOptional.isEmpty() || areaOptional.isEmpty()) {
-            return false;
+            return null;
         }
         Post post = new Post();
         post.setDateAndTime(postRequest.getDateAndTime());
@@ -269,7 +269,7 @@ public class PostController {
         postRepository.save(post);
         userOptional.get().setNoOfIdeas(userOptional.get().getNoOfIdeas() + 1);
         userRepository.save(userOptional.get());
-        return true;
+        return post;
     }
 
 

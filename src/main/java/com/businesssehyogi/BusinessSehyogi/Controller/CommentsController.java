@@ -53,6 +53,7 @@ public class CommentsController {
     //get comments for one post
     @GetMapping("/getCommentForPost/{postId}")
     public List<Comment> getCommentForPost(@PathVariable("postId") int postId) {
+//        Pageable pageable = PageRequest.of(page, size);
         Post post = postRepository.findByPostId(postId);
         return commentsRepository.findByPost(post);
     }

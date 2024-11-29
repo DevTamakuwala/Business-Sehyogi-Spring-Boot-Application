@@ -13,7 +13,7 @@ public class PostRequest {
     private boolean visible;
     private int views;
     private boolean boostedPost;
-    private int userId; // ID of the user
+    private int user_id; // ID of the user
     private int areaId; // ID of the interest area
 
 
@@ -27,7 +27,7 @@ public class PostRequest {
         this.visible = visible;
         this.views = views;
         this.boostedPost = boostedPost;
-        this.userId = userId;
+        this.user_id = userId;
         this.areaId = areaId;
     }
 
@@ -99,11 +99,11 @@ public class PostRequest {
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public int getAreaId() {

@@ -1,6 +1,6 @@
 package com.businesssehyogi.BusinessSehyogi.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +15,7 @@ public class Images {
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
     private Post post;
 
 

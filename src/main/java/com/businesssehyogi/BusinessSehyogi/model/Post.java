@@ -34,10 +34,10 @@ public class Post {
     @JoinColumn(name = "area_id", referencedColumnName = "interestAreaId")
     private InterestArea areaOfPost;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Images> images;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Links> links;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference

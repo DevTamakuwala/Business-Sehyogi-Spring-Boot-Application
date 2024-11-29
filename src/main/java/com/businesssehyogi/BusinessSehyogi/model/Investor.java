@@ -9,19 +9,20 @@ import java.math.BigDecimal;
 public class Investor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int investorId;
     private BigDecimal totalInvestedAmount;
     private String topInvestedCompanies;
 
     @OneToOne()
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User userId;
 
     public Investor() {
     }
 
-    public Investor(int investorId, BigDecimal totalInvestedAmount, String topInvestedCompanies, User userId) {
-        this.investorId = investorId;
+    public Investor(BigDecimal totalInvestedAmount, String topInvestedCompanies, User userId) {
+//        this.investorId = investorId;
         this.totalInvestedAmount = totalInvestedAmount;
         this.topInvestedCompanies = topInvestedCompanies;
         this.userId = userId;
