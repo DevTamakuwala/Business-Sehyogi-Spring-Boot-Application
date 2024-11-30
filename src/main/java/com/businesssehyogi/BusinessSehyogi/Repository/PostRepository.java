@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    @Query("SELECT p FROM Post p WHERE p.visible = true ORDER BY p.noOfLikes DESC")
+    @Query("SELECT p FROM Post p WHERE p.visible = true ORDER BY p.noOfLikes ASC")
     List<Post> findPostsSortedByLikesAndUploadDate(Pageable pageable);
 
     @Query("SELECT p FROM Post p WHERE p.user.userId = :userId")
