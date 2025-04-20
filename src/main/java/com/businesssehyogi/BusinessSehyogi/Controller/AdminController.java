@@ -2,6 +2,7 @@ package com.businesssehyogi.BusinessSehyogi.Controller;
 
 import com.businesssehyogi.BusinessSehyogi.Repository.AdminRepository;
 import com.businesssehyogi.BusinessSehyogi.model.Admin;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,11 @@ public class AdminController {
             return passwordEncoder.matches(password, admin.getPassword());
         }
         return true;
+    }
+
+    @GetMapping("/getAdmin/{email}")
+    public Admin getAdmin(@Valid @PathVariable("email") String email) {
+        return adminRepository.findByAdminEmail(email);
     }
 
 }
